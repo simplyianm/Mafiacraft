@@ -89,15 +89,18 @@ public class Section {
     }
 
     public int getOriginX() {
-        return x & ~SIDE_MASK;
+        return (x >= 0) ? (x & District.SIDE_MASK) : ((x + (Integer.MAX_VALUE
+                >> 1) + 1) & District.SIDE_MASK);
     }
 
     public int getOriginY() {
-        return y & ~HEIGHT_MASK;
+        return (y >= 0) ? (y & District.HEIGHT_MASK) : ((y + (Integer.MAX_VALUE
+                >> 1) + 1) & District.HEIGHT_MASK);
     }
 
     public int getOriginZ() {
-        return z & ~SIDE_MASK;
+        return (z >= 0) ? (z & District.SIDE_MASK) : ((z + (Integer.MAX_VALUE
+                >> 1) + 1) & District.SIDE_MASK);
     }
 
     public District getDistrict() {
@@ -106,11 +109,11 @@ public class Section {
     }
 
     public LandOwner getOwner() {
-        return getDistrict().getOwner(getOriginX(), getOriginZ());
+        return getDistrict().getOwner(getDistrictX(), getDistrictZ());
     }
 
     public byte getIdWithinDistrict() {
-        return GeoUtils.coordsToSectionId(getOriginX(), getOriginZ());
+        return GeoUtils.coordsToSectionId(getDistrictX(), getDistrictZ());
     }
 
     public String getName() {

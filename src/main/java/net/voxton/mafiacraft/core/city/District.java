@@ -50,13 +50,18 @@ import org.bukkit.configuration.serialization.SerializableAs;
 @SerializableAs("district")
 public class District implements LandOwner, ConfigurationSerializable, Serializable {
 
-    public static final int HEIGHT_BITS = 8;
+    public static final int HEIGHT_BITS = 0;
 
     public static final int SIDE_BITS = 4;
 
-    public static final int HEIGHT_MASK = (~0) >>> (Integer.SIZE - HEIGHT_BITS);
+//    public static final int HEIGHT_MASK = (~0) >>> (Integer.SIZE - HEIGHT_BITS);
+    public static final int HEIGHT_MASK = 0;
 
     public static final int SIDE_MASK = (~0) >>> (Integer.SIZE - SIDE_BITS);
+
+    public static final int HEIGHT_LENGTH = HEIGHT_MASK + 1;
+
+    public static final int SIDE_LENGTH = SIDE_MASK + 1;
 
     private transient MWorld mworld;
 
