@@ -81,10 +81,6 @@ public class MafiacraftCore {
         //Notify
         MLogger.log("Mafiacraft " + getVersionDetailed() + " disabling...");
 
-        //Unload the Mafiacraft singleton from the API class.
-        MLogger.log("Unloading singleton...");
-        Mafiacraft.unloadMafiacraft();
-
         //Cancel our tasks, i.e. our scheduler.
         MLogger.log("Cancelling tasks...");
         impl.cancelTasks();
@@ -92,6 +88,10 @@ public class MafiacraftCore {
         //Save data
         MLogger.log("Saving data...");
         dataWorker.saveAll();
+
+        //Unload the Mafiacraft singleton from the API class.
+        MLogger.log("Unloading singleton...");
+        Mafiacraft.unloadMafiacraft();
 
         //Log
         MLogger.log("========== MAFIACRAFT DISABLED ==========");

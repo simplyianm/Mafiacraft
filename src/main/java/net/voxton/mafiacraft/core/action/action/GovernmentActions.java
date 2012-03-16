@@ -49,6 +49,7 @@ public final class GovernmentActions extends PlayerActions {
     private final GovType type;
 
     public GovernmentActions(GovType type) {
+        super(type.getHelpMenu());
         this.type = type;
     }
 

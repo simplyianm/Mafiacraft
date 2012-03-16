@@ -28,6 +28,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.voxton.mafiacraft.core.chat.MsgColor;
+import net.voxton.mafiacraft.core.help.HelpMenu;
+import net.voxton.mafiacraft.core.help.MenuType;
 
 /**
  * Represents a type of Government.
@@ -51,6 +53,20 @@ public abstract class GovType {
         this.canFound = canFound;
         this.color = color;
     }
+    
+    /**
+     * Gets this GovType's help menu for its command.
+     * 
+     * @return The help menu.
+     */
+    public abstract HelpMenu getHelpMenu();
+    
+    /**
+     * Gets this GovType's help menu for its division's command.
+     * 
+     * @return The help menu.
+     */
+    public abstract HelpMenu getDivHelpMenu();
 
     /**
      * Gets a List of all GovTypes.
@@ -132,6 +148,16 @@ public abstract class GovType {
                 m("off.chatalias", "off");
             }
 
+            @Override
+            public HelpMenu getHelpMenu() {
+                return MenuType.MAFIA;
+            }
+
+            @Override
+            public HelpMenu getDivHelpMenu() {
+                return MenuType.REGIME;
+            }
+
         };
         POLICE = new GovType(false, MsgColor.POLICE) {
 
@@ -166,6 +192,16 @@ public abstract class GovType {
                 m("off.chatpref", "o"); //Commander
                 m("off.chatp", MsgColor.COMMANDER + "[CM]");
                 m("off.chatalias", "cmd");
+            }
+
+            @Override
+            public HelpMenu getHelpMenu() {
+                return MenuType.POLICE;
+            }
+
+            @Override
+            public HelpMenu getDivHelpMenu() {
+                return MenuType.SQUAD;
             }
 
         };

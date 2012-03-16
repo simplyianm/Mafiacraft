@@ -23,6 +23,7 @@
  */
 package net.voxton.mafiacraft.bukkit;
 
+import com.google.common.collect.Lists;
 import java.io.InputStream;
 import java.util.*;
 import java.util.logging.Level;
@@ -194,7 +195,7 @@ public class BukkitImpl extends JavaPlugin implements MafiacraftImpl {
 
         //Get the action we want to do.
         String action = (args.length > 0) ? args[0] : "";
-        List<String> largs = new ArrayList<String>(Arrays.asList(args));
+        List<String> largs = Lists.newArrayList(args);
         if (largs.size() > 0) {
             largs.remove(0);
         }
