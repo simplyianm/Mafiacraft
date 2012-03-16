@@ -152,7 +152,7 @@ public class District implements LandOwner, ConfigurationSerializable, Serializa
      * @return
      */
     public boolean canBeClaimed(Section section, LandOwner owner) {
-        LandOwner currentOwner = getOwner(section);
+        LandOwner currentOwner = section.getOwner();
         if (currentOwner.equals(this) && getType().isClaim()) {
             return true;
         }
@@ -249,21 +249,6 @@ public class District implements LandOwner, ConfigurationSerializable, Serializa
     public District setDescription(String description) {
         this.description = description;
         return this;
-    }
-
-    /**
-     * Gets the owner of a chunk.
-     *
-     * @param section
-     * @return The government assigned to the chunk, or null if the chunk is not
-     * part of the district.
-     */
-    public LandOwner getOwner(Section section) {
-        if (!contains(section)) {
-            throw new IllegalArgumentException("Chunk out of bounds of district "
-                    + getName() + "!");
-        }
-        return getOwner(section.getOriginX(), section.getOriginZ());
     }
 
     /**

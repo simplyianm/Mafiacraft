@@ -71,7 +71,7 @@ public class BukkitListener implements Listener {
             return;
         }
 
-        LandOwner owner = d.getOwner(c);
+        LandOwner owner = c.getOwner();
         if (!owner.canBuild(player, c)) {
             player.sendMessage(MsgColor.ERROR
                     + "You aren't allowed to break blocks in here; this land is owned by "
@@ -94,7 +94,7 @@ public class BukkitListener implements Listener {
             return;
         }
 
-        LandOwner owner = d.getOwner(c);
+        LandOwner owner = c.getOwner();
         if (!owner.canBuild(player, c)) {
             player.sendMessage(MsgColor.ERROR
                     + "You aren't allowed to place blocks in here; this land is owned by "
@@ -216,7 +216,7 @@ public class BukkitListener implements Listener {
 
         //We've switched chunks!
         store.setData("lastchunk", current);
-        
+
         LandOwner lastOwner = last.getOwner();
         LandOwner currentOwner = current.getOwner();
 

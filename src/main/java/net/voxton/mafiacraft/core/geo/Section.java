@@ -106,11 +106,11 @@ public class Section {
     }
 
     public LandOwner getOwner() {
-        return getDistrict().getOwner(this);
+        return getDistrict().getOwner(getOriginX(), getOriginZ());
     }
 
     public byte getIdWithinDistrict() {
-        return GeoUtils.coordsToSectionId(x, z);
+        return GeoUtils.coordsToSectionId(getOriginX(), getOriginZ());
     }
 
     public String getName() {
