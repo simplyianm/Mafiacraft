@@ -87,12 +87,12 @@ public final class DistrictActions extends PlayerActions {
         City city = district.getCity();
         if (city == null) {
             return player.getLocale().localize(
-                    "command.district.this-not-associated");
+                    "action.district.this-not-associated");
         }
 
         if (city.isMember(player)) {
             return player.getLocale().localize(
-                    "command.city.must-be-member.district.desc");
+                    "action.city.must-be-member.district.desc");
         }
 
         description = description.trim();
@@ -106,7 +106,7 @@ public final class DistrictActions extends PlayerActions {
 
         //Success!
         player.sendMessage(MsgColor.SUCCESS + player.getLocale().localize(
-                "command.district.desc", description));
+                "action.district.desc", description));
         return null;
     }
 
@@ -136,19 +136,19 @@ public final class DistrictActions extends PlayerActions {
         City city = district.getCity();
         if (city == null) {
             return player.getLocale().localize(
-                    "command.district.this-not-associated");
+                    "action.district.this-not-associated");
         }
 
         if (city.isMember(player)) {
             return player.getLocale().localize(
-                    "command.city.must-be-member.district.setbus");
+                    "action.city.must-be-member.district.setbus");
         }
 
         MPoint bus = player.getPoint();
         district.setBusStop(bus);
 
         player.sendMessage(MsgColor.SUCCESS + player.getLocale().localize(
-                "command.district.bus-set", district.getNameInChat()));
+                "action.district.bus-set", district.getNameInChat()));
         return null;
     }
 
@@ -161,12 +161,12 @@ public final class DistrictActions extends PlayerActions {
         City city = district.getCity();
         if (city == null) {
             return player.getLocale().localize(
-                    "command.district.this-not-associated");
+                    "action.district.this-not-associated");
         }
 
         if (!city.isMayor(player)) {
             return player.getLocale().localize(
-                    "command.district.must-be-mayor.zone");
+                    "action.district.must-be-mayor.zone");
         }
 
         DistrictType type = DistrictType.fromString(typeString);
@@ -177,12 +177,12 @@ public final class DistrictActions extends PlayerActions {
 
         if (type.equals(DistrictType.UNEXPLORED)) {
             return player.getLocale().localize(
-                    "command.district.cannot-unexplore");
+                    "action.district.cannot-unexplore");
         }
 
         district.resetOwnerships().setType(type);
         player.sendMessage(MsgColor.SUCCESS + player.getLocale().localize(
-                "command.district.zoned", type.niceName()));
+                "action.district.zoned", type.niceName()));
         return null;
     }
 
@@ -195,22 +195,22 @@ public final class DistrictActions extends PlayerActions {
         City city = district.getCity();
         if (city == null) {
             return player.getLocale().localize(
-                    "command.district.this-not-associated");
+                    "action.district.this-not-associated");
         }
 
         if (!city.isMayor(player)) {
             return player.getLocale().localize(
-                    "command.district.must-be-mayor.claim-grid");
+                    "action.district.must-be-mayor.claim-grid");
         }
 
         boolean check = city.claimGridAndCheck(district);
         if (!check) {
             return player.getLocale().localize(
-                    "command.district.cannot-claim-grid");
+                    "action.district.cannot-claim-grid");
         }
 
         player.sendMessage(MsgColor.SUCCESS + player.getLocale().localize(
-                "command.district.claimed-grid"));
+                "action.district.claimed-grid"));
         return null;
     }
 
@@ -223,12 +223,12 @@ public final class DistrictActions extends PlayerActions {
         City city = district.getCity();
         if (city == null) {
             return player.getLocale().localize(
-                    "command.district.this-not-associated");
+                    "action.district.this-not-associated");
         }
 
         if (!city.isMayor(player)) {
             return player.getLocale().localize(
-                    "command.district.must-be-mayor.set-cost");
+                    "action.district.must-be-mayor.set-cost");
         }
 
         double cost = 0;
@@ -242,7 +242,7 @@ public final class DistrictActions extends PlayerActions {
         district.setLandCost(cost);
 
         player.sendMessage(MsgColor.SUCCESS + player.getLocale().localize(
-                "command.city.cost-set", StringUtils.formatCurrency(cost)));
+                "action.city.cost-set", StringUtils.formatCurrency(cost)));
         return null;
     }
 

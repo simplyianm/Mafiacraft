@@ -135,7 +135,7 @@ public final class GovernmentActions extends PlayerActions {
         Integer inv = player.getSessionStore().getInt("gov-inv", -1);
         if (inv < 0) {
             return player.getLocale().localize(
-                    "command.government.error.not-invited", type.getName());
+                    "action.government.error.not-invited", type.getName());
         }
 
         Government gov = Mafiacraft.getGovernmentManager().getGovernment(inv);
@@ -147,7 +147,7 @@ public final class GovernmentActions extends PlayerActions {
         gov.addAffiliate(player);
 
         player.sendMessage(MsgColor.SUCCESS + player.getLocale().localize(
-                "command.government.success.joined",
+                "action.government.success.joined",
                 type.getName(), gov.getName()));
         gov.broadcastMessage(player.getLocale().localize(
                 "event.government.player-joined", player.getName(),
@@ -170,7 +170,7 @@ public final class GovernmentActions extends PlayerActions {
 
         if (!type.canFound()) {
             return player.getLocale().localize(
-                    "command.government.error.found", type.getName());
+                    "action.government.error.found", type.getName());
         }
 
         double balance = player.getMoney();
@@ -178,7 +178,7 @@ public final class GovernmentActions extends PlayerActions {
 
         if (balance < cost) {
             return player.getLocale().localize(
-                    "command.government.error.no-money.found", StringUtils.
+                    "action.government.error.no-money.found", StringUtils.
                     formatCurrency(cost));
         }
 
@@ -190,7 +190,7 @@ public final class GovernmentActions extends PlayerActions {
         boolean result = ValidationUtils.validateName(name);
         if (!result) {
             return player.getLocale().localize(
-                    "command.government.error.invalid-name", name);
+                    "action.government.error.invalid-name", name);
         }
 
         if (Mafiacraft.getGovernmentManager().getGovernment(name) != null) {
@@ -211,7 +211,7 @@ public final class GovernmentActions extends PlayerActions {
 
         player.sendMessage(MsgColor.SUCCESS
                 + player.getLocale().localize(
-                "command.government.success.founded", type.getName(), name));
+                "action.government.success.founded", type.getName(), name));
         return null;
     }
 
