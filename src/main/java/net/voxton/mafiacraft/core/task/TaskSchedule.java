@@ -23,122 +23,141 @@
  */
 package net.voxton.mafiacraft.core.task;
 
+import com.kenai.crontabparser.CronTabExpression;
+import java.text.ParseException;
 import java.util.Calendar;
-import java.util.regex.Pattern;
+import java.util.logging.Level;
+import net.voxton.mafiacraft.core.util.logging.MLogger;
 
 /**
  * The task schedule. Let's hope it doesn't use up much ram.
  */
 public class TaskSchedule {
 
-    private static final Pattern generalPattern = Pattern.compile("() () ()"); //TODO: look up this regex.
+    private final CronTabExpression expr;
 
-    /**
-     * Regex pattern that fits minutes.
-     */
-    private final Pattern minutes;
-
-    /**
-     * Regex pattern that fits hours.
-     */
-    private final Pattern hours;
-
-    /**
-     * Regex pattern that fits days.
-     */
-    private final Pattern days;
-
-    /**
-     * Constructor that uses regex strings.
-     *
-     * @param minutes The minute pattern.
-     * @param hours The hour pattern.
-     * @param days The day pattern.
-     */
-    public TaskSchedule(String minutes, String hours, String days) {
-        this(Pattern.compile(minutes), Pattern.compile(hours), Pattern.compile(
-                days));
+    private TaskSchedule(CronTabExpression expr) {
+        this.expr = expr;
     }
 
     /**
-     * Constructor that uses patterns.
+     * Checks if the given time fits the task schedule.
      *
-     * @param minutes The minute pattern.
-     * @param hours The hour pattern.
-     * @param days The day pattern.
+     * @param calendar The time as a {@link java.util.Calendar}.
+     * @return True if the time matches now.
      */
-    public TaskSchedule(Pattern minutes, Pattern hours, Pattern days) {
-        this.minutes = minutes;
-        this.hours = hours;
-        this.days = days;
+    public boolean fitsTime(Calendar calendar) {
+        return expr.matches(calendar);
     }
 
     /**
-     * Returns true if the value fits the minute.
+     * Gets a schedule from its crontab string.
      *
-     * @param minute The minute to check.
-     * @return True if the value fits the minute.
-     */
-    public boolean fitsMinute(int minute) {
-        return minutes.matcher(Integer.toString(minute)).matches();
-    }
-
-    /**
-     * Returns true if the value fits the hour.
+     * A representation of a crontab string, as used for scheduling with the
+     * *nix job scheduler {@link Cron http://en.wikipedia.org/wiki/Cron}.
+     * <br/><br/>
      *
-     * @param minute The hour to check.
-     * @return True if the value fits the hour.
-     */
-    public boolean fitsHours(int hour) {
-        return hours.matcher(Integer.toString(hour)).matches();
-    }
-
-    /**
-     * Returns true if the value fits the day.
+     * <h3> Summary </h3>
      *
-     * @param minute The day to check.
-     * @return True if the value fits the day.
-     */
-    public boolean fitsDays(int day) {
-        return days.matcher(Integer.toString(day)).matches();
-    }
-
-    public boolean fitsTime() {
-        //TODO get JODA time!
-        return false;
-    }
-
-    /**
-     * Gets a schedule from its cron string.
+     * A {@code CronTabExpression} may represent only one crontab string. Each
+     * crontab string consists of five fields, as specified below*.
      *
-     * <p>Cron strings as defined for our purposes are formatted as follows:</p>
-     * <pre>#minute #hour #day</pre>
+     * <pre>
+     * .---------------- minute (0 - 59)
+     * |  .------------- hour (0 - 23)
+     * |  |  .---------- day of month (1 - 31)
+     * |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+     * |  |  |  |  .---- day of week (0 - 7) (Sunday=0 or 7)  OR sun,mon,tue,wed,thu,fri,sat
+     * |  |  |  |  |
+     * * * * * *</pre> (* Figure originally from <a
+     * href="http://en.wikipedia.org/wiki/Cron"> Wikipedia</a>. Used under <a
+     * href="http://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License">
+     * Creative Commons Attribution-ShareAlike License</a> and available here
+     * under same license.)
      *
-     * <p>Here is an example of a cron string that is scheduled to run once per
-     * 15 minutes:</p>
-     * <pre>0,15,30,45 * *</pre>
      *
-     * <p>The stars mean that it doesn't matter what those are. As long as the
-     * minutes are at 0, 15, 30, or 45 at the time, then the script will run. It
-     * would suck if you reloaded at that time... Now another one:</p>
-     * <pre>0-15,30,45-90 * 2-6</pre>
+     * <h3> Standard Entries </h3>
      *
-     * <p>That cron string would run every time from 0 to 15 minutes (16 times),
-     * run at 30, then run at 45-59. There is no '60th' or '90th' minute or
-     * anything in between, so those are to be ignored. The string would also
-     * run every day from Monday to Friday, because there are 7 days in a week.
-     * Here's another example, because I love writing specifications:</p>
-     * <pre>* 0 *</pre>
+     * Fields may contain one of the following.
      *
-     * <p>This string would run on the first hour of each day at midnight. There
-     * are 24 hours in a day. So that's it, pretty simple eh?</p>
+     * <ul> <li> An asterisk (*), which matches any value. </li> <li> A range of
+     * numbers. Ranges are represented by two numbers separated by a hyphen.
+     * Ranges are inclusive.<br/> For example, 8-11 for an "hours" entry matches
+     * hours 8, 9, 10 and 11. </li> <li> A list of numbers. A list is a set of
+     * numbers (or ranges) separated by commas.<br/> Examples: "1,2,5,9",
+     * "0-4,8-12". </li> <li> A range with a step value. A step entry is a range
+     * (or an asterisk) followed by "/&lt;step number>". This type of entry
+     * matches any value in the range that is exactly divisible by the step
+     * number. <br/> For example, "0-23/2" can be used in the hours field to
+     * specify command execution every other hour (equivalent to the list entry
+     * "0,2,4,6,8,10,12,14,16,18,20,22").<br/> Using an asterisk for the range
+     * will match every valid value for the field that is exactly visible by the
+     * step number.<br/> For example "*\/3" in the hours field will match every
+     * third hour. </li> <li> <b>month and day-of-week fields only:</b> A range
+     * or list value, with month and day names (respectively) substituted for
+     * numeric values. Names are case insensitive, and may be three-letter
+     * abbreviations or full names. <br/> Examples: "mon", "apr", "Friday",
+     * "AUGUST", "mon-fri", "jan, feb, dec" </li> </ul> <b>Note:</b> The day can
+     * be specified in either of two fields: day of month, and day of week. If
+     * both fields are restricted (i.e., aren't *), the expression will match
+     * any time at which either field is matched.<br/> For example, "30 4 1,15 *
+     * 5" would match 4:30 am on the 1st and 15th of each month, as well as
+     * every Friday.<br/><br/>
+     *
+     *
+     * <h3>Special Entries</h3>
+     *
+     * Instead of the first five fields, one of eight special strings may be
+     * used: **<br/>
+     *
+     * <table> <tbody> <tr> <th> Entry </th> <th> Description </th> <th>
+     * Equivalent To </th> </tr>
+     *
+     * <tr> <td>
+     * <code>@yearly</code> </td> <td> Run once a year </td> <td>
+     * <code>0 0 1 1 *</code> </td> </tr>
+     *
+     * <tr> <td>
+     * <code>@annually</code> </td> <td> (same as
+     * <code>@yearly</code>) </td> <td>
+     * <code>0 0 1 1 *</code> </td> </tr>
+     *
+     * <tr> <td>
+     * <code>@monthly</code> </td> <td> Run once a month </td> <td>
+     * <code>0 0 1 * *</code> </td> </tr> <tr> <td>
+     * <code>@weekly</code> </td> <td> Run once a week </td> <td>
+     * <code>0 0 * * 0</code> </td> </tr>
+     *
+     * <tr> <td>
+     * <code>@daily</code> </td> <td> Run once a day </td> <td>
+     * <code>0 0 * * *</code> </td> </tr>
+     *
+     * <tr> <td>
+     * <code>@midnight</code> </td> <td> (same as
+     * <code>@daily</code>) </td> <td>
+     * <code>0 0 * * *</code> </td> </tr>
+     *
+     * <tr> <td>
+     * <code>@hourly</code> </td> <td> Run once an hour </td> <td>
+     * <code>0 * * * *</code> </td> </tr> </tbody> </table><br/> (** Table
+     * originally from <a href="http://en.wikipedia.org/wiki/Cron">
+     * Wikipedia</a>. Used under <a
+     * href="http://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License">
+     * Creative Commons Attribution-ShareAlike License</a> and available here
+     * under same license.)
      *
      * @param schedule The string schedule as specified above.
      * @return The TaskSchedule parsed from this.
      */
     public static TaskSchedule fromCronString(String schedule) {
-        //TODO: do this awesome thing!
-        return null;
+        try {
+            CronTabExpression expr = CronTabExpression.parse(schedule);
+            return new TaskSchedule(expr);
+        } catch (ParseException ex) {
+            MLogger.log(Level.WARNING, "Invalid schedule encountered: "
+                    + schedule, ex);
+            return null;
+        }
     }
 
 }
