@@ -483,6 +483,10 @@ public class CityManager {
                             int x = getXFromKey(key);
                             int y = getYFromKey(key);
                             int z = getZFromKey(key);
+                            MLogger.logVerbose("Creating a section at (" + x
+                                    + ", " + y + ", " + z
+                                    + "); key was 0x" + Long.toHexString(key)
+                                    + ".", 5);
                             return createSection(world, x, y, z);
                         }
 
@@ -493,8 +497,6 @@ public class CityManager {
     }
 
     private Section createSection(MWorld world, int x, int y, int z) {
-        MLogger.logVerbose("Creating a section at (" + x + ", " + y + ", " + z
-                + ")", 5);
         return new Section(world, x, y, z);
     }
 
