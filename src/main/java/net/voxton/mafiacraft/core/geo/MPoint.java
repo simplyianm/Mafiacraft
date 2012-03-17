@@ -93,15 +93,19 @@ public class MPoint implements Serializable {
     }
 
     public int getBlockX() {
-        return (int) getX();
+        return getBlockLoc(getX());
     }
 
     public int getBlockY() {
-        return (int) getY();
+        return getBlockLoc(getY());
     }
 
     public int getBlockZ() {
-        return (int) getZ();
+        return getBlockLoc(getZ());
+    }
+
+    private int getBlockLoc(double num) {
+        return (int) Math.floor(num);
     }
 
     /**
@@ -131,8 +135,8 @@ public class MPoint implements Serializable {
 
     @Override
     public String toString() {
-        return "MPoint{" + "world=" + world + ", worldString=" + worldString +
-                ", x=" + x + ", y=" + y + ", z=" + z + '}';
+        return "MPoint{" + "world=" + world + ", worldString=" + worldString
+                + ", x=" + x + ", y=" + y + ", z=" + z + '}';
     }
 
     /**

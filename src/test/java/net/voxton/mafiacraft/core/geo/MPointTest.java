@@ -140,6 +140,22 @@ public class MPointTest {
     }
 
     /**
+     * Test of getBlockX method, of class MPoint.
+     */
+    @Test
+    public void testGetBlockX_neg1() {
+        System.out.println("Testing the getBlockX method with -0.something.");
+
+        MWorld world = mock(MWorld.class);
+        when(world.getName()).thenReturn("world");
+        MPoint instance = new MPoint(world, -0.0031415926, 2, 3);
+
+        int expected = -1;
+        int result = instance.getBlockX();
+        assertEquals(expected, result);
+    }
+
+    /**
      * Test of getBlockY method, of class MPoint.
      */
     @Test
