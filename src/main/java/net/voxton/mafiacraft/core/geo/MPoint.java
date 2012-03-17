@@ -129,6 +129,12 @@ public class MPoint implements Serializable {
         return (dx * dx + dy * dy + dz * dz);
     }
 
+    @Override
+    public String toString() {
+        return "MPoint{" + "world=" + world + ", worldString=" + worldString +
+                ", x=" + x + ", y=" + y + ", z=" + z + '}';
+    }
+
     /**
      * Serializes the MPoint to a string.
      *

@@ -23,16 +23,17 @@
  */
 package net.voxton.mafiacraft.bukkit;
 
+import java.util.logging.Logger;
 import net.voxton.mafiacraft.core.Mafiacraft;
 import net.voxton.mafiacraft.core.classes.UtilityClass;
 import net.voxton.mafiacraft.core.city.District;
 import net.voxton.mafiacraft.core.city.LandOwner;
 import net.voxton.mafiacraft.core.geo.Section;
-import net.voxton.mafiacraft.bukkit.BukkitImpl;
 import net.voxton.mafiacraft.core.player.KillTracker;
 import net.voxton.mafiacraft.core.player.MPlayer;
 import net.voxton.mafiacraft.core.chat.MsgColor;
 import net.voxton.mafiacraft.core.player.SessionStore;
+import net.voxton.mafiacraft.core.util.logging.MLogger;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -45,7 +46,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.*;
-import org.bukkit.util.Vector;
 
 /**
  * Mafiacraft listener.
@@ -201,8 +201,9 @@ public class BukkitListener implements Listener {
         Section last = store.getObject("lastsect", Section.class);
         Section current = player.getSection();
         
-        System.out.println("LAST: " + last);
-        System.out.println("CURRENT: " + current);
+        MLogger.logVerbose("LAST: " + last, 5);
+        MLogger.logVerbose("CURRENT: " + current, 5);
+        MLogger.logVerbose("CURRENTPOINT: " + player.getPoint(), 5);
 
         if (last == null) {
             store.setData("lastsect", player.getSection());
