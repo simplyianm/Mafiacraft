@@ -199,6 +199,54 @@ public class MPointTest {
      * Test of getSection method, of class MPoint.
      */
     @Test
+    public void testGetSection_negOne() {
+        System.out.println("Testing the getSection method in a negative one section.");
+
+        MWorld world = mock(MWorld.class);
+        when(world.getName()).thenReturn("world");
+        MPoint instance = new MPoint(world, -1, -2, -3);
+
+        Section section = mock(Section.class);
+        CityManager cm = mock(CityManager.class);
+        mockStatic(Mafiacraft.class);
+        when(Mafiacraft.getCityManager()).thenReturn(cm);
+        when(cm.getSection(world, -1, -1, -1)).thenReturn(section);
+
+        Section expected = section;
+        Section result = instance.getSection();
+        assertEquals(expected, result);
+
+        verify(cm).getSection(world, -1, -1, -1);
+    }
+
+    /**
+     * Test of getSection method, of class MPoint.
+     */
+    @Test
+    public void testGetSection_partiallyNeg() {
+        System.out.println("Testing the getSection method in a partially negative section.");
+
+        MWorld world = mock(MWorld.class);
+        when(world.getName()).thenReturn("world");
+        MPoint instance = new MPoint(world, -3, 66, 15);
+
+        Section section = mock(Section.class);
+        CityManager cm = mock(CityManager.class);
+        mockStatic(Mafiacraft.class);
+        when(Mafiacraft.getCityManager()).thenReturn(cm);
+        when(cm.getSection(world, -1, 0, 0)).thenReturn(section);
+
+        Section expected = section;
+        Section result = instance.getSection();
+        assertEquals(expected, result);
+
+        verify(cm).getSection(world, -1, 0, 0);
+    }
+
+    /**
+     * Test of getSection method, of class MPoint.
+     */
+    @Test
     public void testGetSection_notOrigin() {
         System.out.println(
                 "Testing the getSection method with a section not at the origin.");

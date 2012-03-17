@@ -30,50 +30,52 @@ import org.junit.Test;
  * Testing of the city manager.
  */
 public class CityManagerTest {
+
     @Test
     public void testGetSectionKey() {
         System.out.println("Testing the getSectionKey method.");
-        
+
         int x = -67;
         int y = 118;
         int z = 18;
-        
+
         long expected = 0x3ffef6000ed00012L;
         long result = CityManager.getSectionKey(x, y, z);
-        
+
         assertEquals(expected, result);
     }
-    
+
     @Test
     public void testGetXFromKey() {
         System.out.println("Testing the getXFromKey method.");
         long key = 0x3ffef6000ed00012L;
-        
+
         int expected = -67;
         long result = CityManager.getXFromKey(key);
-        
+
         assertEquals(expected, result);
     }
-    
+
     @Test
     public void testGetYFromKey() {
         System.out.println("Testing the getYFromKey method.");
         long key = 0x3ffef6000ed00012L;
-        
+
         int expected = 118;
         long result = CityManager.getYFromKey(key);
-        
+
         assertEquals(expected, result);
     }
-    
+
     @Test
     public void testGetZFromKey() {
         System.out.println("Testing the getZFromKey method.");
         long key = 0x3ffef6000ed00012L;
-        
+
         int expected = 18;
         long result = CityManager.getZFromKey(key);
-        
+
         assertEquals(expected, result);
     }
+
 }
