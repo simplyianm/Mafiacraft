@@ -120,13 +120,6 @@ Mafiacraft Build file (c) 2012 Voxton.net
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>2.1</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
         
         <!-- Test dependencies -->
         <dependency>
@@ -264,7 +257,6 @@ Mafiacraft Build file (c) 2012 Voxton.net
                                     <include>net.sf.trove4j:trove4j</include>
                                     <include>commons-codec:commons-codec</include>
                                     <include>com.kenai.crontab-parser:crontab-parser</include>
-                                    <include>joda-time:joda-time</include>
                                 </includes>
                             </artifactSet>
                         </configuration>

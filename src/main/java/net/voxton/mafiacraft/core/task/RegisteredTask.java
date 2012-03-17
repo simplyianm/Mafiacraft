@@ -110,15 +110,13 @@ public class RegisteredTask {
 
     /**
      * Returns true if the minutes changed.
-     * 
+     *
      * @param time The first time to compare.
      * @param other The other time.
      * @return True if the minute changed.
      */
     private boolean minutesChanged(Calendar time, Calendar other) {
-        DateTime first = new DateTime(time);
-        DateTime second = new DateTime(other);
-        return first.getMinuteOfDay() != second.getMinuteOfDay();
+        return time.get(Calendar.MINUTE) != other.get(Calendar.MINUTE);
     }
 
 }

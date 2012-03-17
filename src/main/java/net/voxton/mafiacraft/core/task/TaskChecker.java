@@ -23,6 +23,8 @@
  */
 package net.voxton.mafiacraft.core.task;
 
+import java.util.Calendar;
+
 /**
  * Checks if tasks are due.
  */
@@ -44,8 +46,10 @@ public class TaskChecker implements Runnable {
 
     @Override
     public void run() {
+        Calendar now = Calendar.getInstance();
         for (RegisteredTask task : tm.getDueTasks()) {
             task.getTask().run();
+            task.setLastRun(now);
         }
     }
 
