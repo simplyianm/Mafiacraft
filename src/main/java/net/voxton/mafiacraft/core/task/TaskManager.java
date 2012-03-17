@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.voxton.mafiacraft.core.Mafiacraft;
-import net.voxton.mafiacraft.core.MafiacraftCore;
 
 /**
  * The manager of tasks.
@@ -42,7 +41,7 @@ public class TaskManager {
             new HashMap<String, RegisteredTask>();
 
     /**
-     * An unnecessary but line-number increasing reference to the task checker.
+     * A reference to the task checker.
      */
     private TaskChecker taskChecker;
 
