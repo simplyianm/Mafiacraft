@@ -201,9 +201,9 @@ public class BukkitListener implements Listener {
         Section last = store.getObject("lastsect", Section.class);
         Section current = player.getSection();
         
-        MLogger.logVerbose("LAST: " + last, 5);
-        MLogger.logVerbose("CURRENT: " + current, 5);
-        MLogger.logVerbose("CURRENTPOINT: " + player.getPoint(), 5);
+        MLogger.logVerbose("LAST: " + last, 6);
+        MLogger.logVerbose("CURRENT: " + current, 6);
+        MLogger.logVerbose("CURRENTPOINT: " + player.getPoint(), 6);
 
         if (last == null) {
             store.setData("lastsect", player.getSection());
