@@ -346,22 +346,11 @@ public class CityManager {
     }
 
     /**
-     * Creates a district based on a sample chunk within the potential district.
-     *
-     * @param sample
-     * @return
-     */
-    private District createDistrict(Section sample) {
-        return createDistrict(sample.getWorld(), ((sample.getX()) >> 4),
-                ((sample.getZ() >> 4)));
-    }
-
-    /**
      * Creates a district for the specified city.
      *
-     * @param x
-     * @param z
-     * @param city
+     * @param x The district x.
+     * @param z The district z.
+     * @param city The city of the district.
      * @return The created district, or the existing district
      */
     private District createDistrict(MWorld world, int x, int z) {
@@ -498,12 +487,14 @@ public class CityManager {
                         }
 
                     });
+            sections.put(world.getName(), cache);
         }
-        sections.put(world.getName(), cache);
         return cache;
     }
 
     private Section createSection(MWorld world, int x, int y, int z) {
+        MLogger.logVerbose("Creating a section at (" + x + ", " + y + ", " + z
+                + ")", 5);
         return new Section(world, x, y, z);
     }
 
@@ -779,13 +770,10 @@ public class CityManager {
         x += 0x100000;
         y += 0x100000;
         z += 0x100000;
-        return 
-                //X -- 63rd bit & 40 - 60
+        return //X -- 63rd bit & 40 - 60
                 (((x & 0x1fffffL) << 42))
-                
                 //Y -- 62nd bit & 20-39
                 | (((y & 0x1fffffL) << 21))
-                
                 //Z -- 61st bit & 0-19
                 | ((z & 0x1fffffL));
     }
