@@ -23,7 +23,7 @@
  */
 package net.voxton.mafiacraft.core.task;
 
-import java.util.Date;
+import java.util.Calendar;
 
 /**
  * Represents a registered task.
@@ -35,6 +35,8 @@ public class RegisteredTask {
     private final Task task;
 
     private final TaskSchedule schedule;
+
+    private Calendar lastRun;
 
     /**
      * Creates a new registered task.
@@ -77,13 +79,32 @@ public class RegisteredTask {
     }
 
     /**
+     * Gets when this task was last run.
+     *
+     * @return The time this task was last run.
+     */
+    public Calendar getLastRun() {
+        return lastRun;
+    }
+
+    /**
+     * Sets when this task was last run.
+     *
+     * @param time The time to set.
+     */
+    public void setLastRun(Calendar time) {
+        this.lastRun = time;
+    }
+
+    /**
      * Returns true if this should run at the given date..
      *
+     * @param time The time to check.
      * @return True if this should run.
      */
-    public boolean shouldRun(Date date) {
-//        return schedule.pertainsTo()
-        return false;
+    public boolean shouldRun(Calendar time) {
+        return schedule.fitsTime(time) && ((getLastRun().getTimeInMillis() + 1000
+                * 60) - 2000 >= time.getTimeInMillis() + 1000 * 60); //2000 ms of leniency
     }
 
 }
