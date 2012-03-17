@@ -781,7 +781,7 @@ public class CityManager {
     }
 
     static int getXFromKey(long key) {
-        return (int) (((key & 0x7ffff60000000000L) >>> 42) - 0x100000);
+        return (int) (((key & 0x7ffffc0000000000L) >>> 42) - 0x100000);
     }
 
     static int getYFromKey(long key) {
