@@ -24,8 +24,6 @@
 package net.voxton.mafiacraft.core.task;
 
 import java.util.Calendar;
-import org.joda.time.DateTime;
-import org.joda.time.Minutes;
 
 /**
  * Represents a registered task.
