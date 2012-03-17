@@ -24,6 +24,8 @@
 package net.voxton.mafiacraft.core.task;
 
 import java.util.Calendar;
+import org.joda.time.DateTime;
+import org.joda.time.Minutes;
 
 /**
  * Represents a registered task.
@@ -103,8 +105,20 @@ public class RegisteredTask {
      * @return True if this should run.
      */
     public boolean shouldRun(Calendar time) {
-        return schedule.fitsTime(time) && ((getLastRun().getTimeInMillis() + 1000
-                * 60) - 2000 >= time.getTimeInMillis() + 1000 * 60); //2000 ms of leniency
+        return schedule.fitsTime(time) && minutesChanged(time, getLastRun());
+    }
+
+    /**
+     * Returns true if the minutes changed.
+     * 
+     * @param time The first time to compare.
+     * @param other The other time.
+     * @return True if the minute changed.
+     */
+    private boolean minutesChanged(Calendar time, Calendar other) {
+        DateTime first = new DateTime(time);
+        DateTime second = new DateTime(other);
+        return first.getMinuteOfDay() != second.getMinuteOfDay();
     }
 
 }
