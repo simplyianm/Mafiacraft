@@ -180,4 +180,10 @@ public class MWorld implements ConfigurationSerializable {
         return cap.getSpawnPoint();
     }
 
+    @Override
+    public String toString() {
+        return "MWorld{" + "name=" + name + ", capital=" + capital + ", toggles=" +
+                toggles + '}';
+    }
+
 }

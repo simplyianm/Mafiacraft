@@ -200,6 +200,9 @@ public class BukkitListener implements Listener {
 
         Section last = store.getObject("lastsect", Section.class);
         Section current = player.getSection();
+        
+        System.out.println("LAST: " + last);
+        System.out.println("CURRENT: " + current);
 
         if (last == null) {
             store.setData("lastsect", player.getSection());

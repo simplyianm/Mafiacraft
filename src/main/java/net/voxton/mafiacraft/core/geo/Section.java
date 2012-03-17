@@ -124,4 +124,10 @@ public class Section {
         return nameBuilder.toString();
     }
 
+    @Override
+    public String toString() {
+        return "Section{" + "world=" + world + ", x=" + x + ", y=" + y + ", z=" +
+                z + '}';
+    }
+
 }
