@@ -162,6 +162,21 @@ public class SectionTest {
      * Test of getOriginX method, of class Section.
      */
     @Test
+    public void testGetOriginX_zero() {
+        System.out.println("Testing the getOriginX method with a zero.");
+        
+        MWorld world = mock(MWorld.class);
+        Section instance = new Section(world, 0, 0, 0);
+        
+        int expected = 0;
+        int result = instance.getOriginX();
+        assertEquals(expected, result);
+    }
+
+    /**
+     * Test of getOriginX method, of class Section.
+     */
+    @Test
     public void testGetOriginX_neg() {
         System.out.println("Testing the getOriginX method, negative.");
         

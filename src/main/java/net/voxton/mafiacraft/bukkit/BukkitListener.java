@@ -198,10 +198,6 @@ public class BukkitListener implements Listener {
         MPlayer player = Mafiacraft.getPlayer((event.getPlayer()).getName());
         SessionStore store = player.getSessionStore();
 
-        if (event.getFrom().getChunk().equals(event.getTo().getChunk())) {
-            return;
-        }
-
         Section last = store.getObject("lastsect", Section.class);
         Section current = player.getSection();
 
