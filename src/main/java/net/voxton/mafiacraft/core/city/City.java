@@ -469,7 +469,10 @@ public class City extends Transactable implements LandOwner, ConfigurationSerial
 
         data.put("id", getId());
         data.put("name", getName());
-        data.put("spawn", getSpawnPoint().serializeToString());
+        MPoint sp = getSpawnPoint();
+        if (sp != null) {
+            data.put("spawn", sp.serializeToString());
+        }
         data.put("world", getCityWorld().getName());
 
         data.put("mayor", getMayor());
@@ -498,8 +501,12 @@ public class City extends Transactable implements LandOwner, ConfigurationSerial
 
         String name = data.get("name").toString();
 
-        String spawnS = data.get("spawn").toString();
-        MPoint spawn = MPoint.deserialize(spawnS);
+        Object spawnO = data.get("spawn");
+        if (spawnO != null) {
+            String spawnS = spawnO.toString();
+            MPoint spawn = MPoint.deserialize(spawnS);
+            city.setSpawnPoint(spawn);
+        }
 
         String worldS = data.get("world").toString();
         MWorld cworld = Mafiacraft.getCityManager().getWorld(worldS);
@@ -510,7 +517,7 @@ public class City extends Transactable implements LandOwner, ConfigurationSerial
         Set<String> advisors = new HashSet<String>(advisorsS);
 
         //Set info
-        city.setName(name).setSpawnPoint(spawn);
+        city.setName(name);
         city.setCityWorld(cworld);
 
         //Set members
