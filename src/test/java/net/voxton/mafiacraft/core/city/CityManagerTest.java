@@ -32,6 +32,25 @@ import org.junit.Test;
 public class CityManagerTest {
 
     @Test
+    public void testGetSectionKeyAndReverse() {
+        System.out.println("Testing the getSectionKey method and its inverse.");
+
+        int x = -3;
+        int y = 66;
+        int z = 15;
+
+        long key = CityManager.getSectionKey(x, y, z);
+        
+        int xr = CityManager.getXFromKey(key);
+        int yr = CityManager.getYFromKey(key);
+        int zr = CityManager.getZFromKey(key);
+        
+        assertEquals(x, xr);
+        assertEquals(y, yr);
+        assertEquals(z, zr);
+    }
+
+    @Test
     public void testGetSectionKey() {
         System.out.println("Testing the getSectionKey method.");
 
