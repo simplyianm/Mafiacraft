@@ -26,6 +26,7 @@ package net.voxton.mafiacraft.core.geo;
 import net.voxton.mafiacraft.core.city.DistrictType;
 import net.voxton.mafiacraft.core.city.City;
 import java.util.*;
+import net.voxton.mafiacraft.core.Mafiacraft;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
 
@@ -37,7 +38,9 @@ public class MWorld implements ConfigurationSerializable {
 
     private final String name;
 
-    private City capital;
+    private int capitalId = -1;
+
+    private transient City capital;
 
     /**
      * Holds all toggles. True if the set contains the toggle.
@@ -54,7 +57,11 @@ public class MWorld implements ConfigurationSerializable {
      * @return
      */
     public City getCapital() {
-        return capital;
+        if (capital != null) {
+            return capital;
+        }
+
+        return Mafiacraft.getCityManager().getCity(capitalId);
     }
 
     /**
@@ -65,7 +72,19 @@ public class MWorld implements ConfigurationSerializable {
      */
     public MWorld setCapital(City capital) {
         this.capital = capital;
-        capital.setCityWorld(this);
+        capital.setWorld(this);
+        setCapital(capital.getId());
+        return this;
+    }
+    
+    /**
+     * Sets the capital of this MWorld.
+     * 
+     * @param id The id of the capital.
+     * @return This MWorld.
+     */
+    private MWorld setCapital(int id) {
+        this.capitalId = id;
         return this;
     }
 
@@ -75,7 +94,7 @@ public class MWorld implements ConfigurationSerializable {
      * @return
      */
     public MWorld removeCapital() {
-        capital.setCityWorld(null);
+        capital.setWorld(null);
         capital = null;
         return this;
     }
@@ -144,6 +163,10 @@ public class MWorld implements ConfigurationSerializable {
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("toggles", new ArrayList<String>(toggles));
         data.put("world", getName());
+        City c = getCapital();
+        if (c != null) {
+            data.put("capital", c.getId());
+        }
         return data;
     }
 
@@ -166,6 +189,11 @@ public class MWorld implements ConfigurationSerializable {
             } catch (IllegalArgumentException ex) {
             }
         }
+        
+        Integer capitalId = (Integer) data.get("capital");
+        if (capitalId != null) {
+            cw.setCapital(capitalId);
+        }
 
         return cw;
     }
@@ -182,8 +210,8 @@ public class MWorld implements ConfigurationSerializable {
 
     @Override
     public String toString() {
-        return "MWorld{" + "name=" + name + ", capital=" + capital + ", toggles=" +
-                toggles + '}';
+        return "MWorld{" + "name=" + name + ", capital=" + capital
+                + ", toggles=" + toggles + '}';
     }
 
 }

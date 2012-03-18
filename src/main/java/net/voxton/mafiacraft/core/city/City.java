@@ -418,7 +418,7 @@ public class City extends Transactable implements LandOwner, ConfigurationSerial
      *
      * @param cityWorld
      */
-    public City setCityWorld(MWorld cityWorld) {
+    public City setWorld(MWorld cityWorld) {
         this.cityWorld = cityWorld;
         return this;
     }
@@ -526,7 +526,7 @@ public class City extends Transactable implements LandOwner, ConfigurationSerial
 
         //Set info
         city.setName(name);
-        city.setCityWorld(cworld);
+        city.setWorld(cworld);
 
         //Set members
         city.setMayor(mayor).setAdvisors(advisors);

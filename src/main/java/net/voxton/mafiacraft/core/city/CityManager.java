@@ -551,7 +551,7 @@ public class CityManager {
      * @return This newly loaded CityManager.
      */
     public CityManager load() {
-        return loadCityWorlds().loadCities().loadDistricts().
+        return loadWorlds().loadCities().loadDistricts().
                 loadCityDistrictMappings();
     }
 
@@ -560,7 +560,7 @@ public class CityManager {
      *
      * @return This newly loaded CityManager.
      */
-    public CityManager loadCityWorlds() {
+    public CityManager loadWorlds() {
         File cityFile = Mafiacraft.getOrCreateSubFile("geo", "cityworlds.yml");
         YamlConfiguration conf = YamlConfiguration.loadConfiguration(cityFile);
 
@@ -652,7 +652,7 @@ public class CityManager {
      * @return This CityManager.
      */
     public CityManager save() {
-        return saveCityWorlds().saveCities().saveDistricts().
+        return saveWorlds().saveCities().saveDistricts().
                 saveCityDistrictMappings();
     }
 
@@ -661,8 +661,8 @@ public class CityManager {
      *
      * @return This City Manager.
      */
-    public CityManager saveCityWorlds() {
-        File cityFile = Mafiacraft.getOrCreateSubFile("geo", "cityworlds.yml");
+    public CityManager saveWorlds() {
+        File cityFile = Mafiacraft.getOrCreateSubFile("geo", "worlds.yml");
         YamlConfiguration conf = new YamlConfiguration();
 
         for (MWorld cityWorld : getWorldList()) {
@@ -673,7 +673,7 @@ public class CityManager {
             conf.save(cityFile);
         } catch (IOException ex) {
             MLogger.log(Level.SEVERE,
-                    "The city world file could not be written for some odd reason!",
+                    "The worlds file could not be written for some odd reason!",
                     ex);
         }
 
