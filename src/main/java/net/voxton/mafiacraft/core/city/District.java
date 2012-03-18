@@ -85,12 +85,6 @@ public class District implements LandOwner, ConfigurationSerializable, Serializa
 
     private double landCost;
 
-    public District() {
-        this.world = "";
-        this.x = 0;
-        this.z = 0;
-    }
-
     public District(String world, int x, int z) {
         this.world = world;
         this.x = x;
