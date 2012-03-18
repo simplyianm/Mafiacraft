@@ -445,10 +445,18 @@ public class City extends Transactable implements LandOwner, ConfigurationSerial
      * @return
      */
     public City claimGrid(District district) {
-        for (int x = 0; x < 15; x++) {
-            for (int z = 0; z < 15; z++) {
-                if (x == 0 || z == 0 || x == 15 || z == 15 || (x + 1) % 5 == 0
-                        || (z + 1) % 5 == 0) {
+        for (int x = 0; x < District.SIDE_LENGTH; x++) {
+            for (int z = 0; z < District.SIDE_LENGTH; z++) {
+                if (
+                        //Min border
+                        x == 0
+                        || z == 0
+                        //Max border
+                        || x == District.SIDE_LENGTH
+                        || z == District.SIDE_LENGTH
+                        //Interior roads
+                        || x % 5 == 0
+                        || z % 5 == 0) {
                     district.setOwner(x, z, this);
                 }
             }
