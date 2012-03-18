@@ -258,8 +258,8 @@ public class District implements LandOwner, ConfigurationSerializable, Serializa
      * @return
      */
     public LandOwner getOwner(int x, int z) {
-        byte id = GeoUtils.coordsToSectionId(x, z);
-        String ownerStr = owners.get(id);
+        byte idsec = GeoUtils.coordsToSectionId(x, z);
+        String ownerStr = owners.get(idsec);
         LandOwner owner = Mafiacraft.getLandOwner(ownerStr);
         if (owner == null) {
             owner = this;
@@ -291,8 +291,8 @@ public class District implements LandOwner, ConfigurationSerializable, Serializa
      * @return
      */
     public District setOwner(int x, int z, LandOwner owner) {
-        byte id = GeoUtils.coordsToSectionId(x, z);
-        owners.put(id, owner.getOwnerId());
+        byte idsec = GeoUtils.coordsToSectionId(x, z);
+        owners.put(idsec, owner.getOwnerId());
         return this;
     }
 
